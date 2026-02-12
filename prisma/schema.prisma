@@ -14,6 +14,7 @@ model Submission {
   advice      String
   hiringTrait String
   votes       Int      @default(0)
+  color       String   @default("red")
   createdAt   DateTime @default(now())
 
   @@map("submissions")

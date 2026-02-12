@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Meetup Wisdom Board",
@@ -13,8 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-gray-50">
+      <body className={`${GeistMono.className} antialiased bg-gray-50`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );
