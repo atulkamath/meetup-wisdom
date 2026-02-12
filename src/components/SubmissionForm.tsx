@@ -217,7 +217,7 @@ export default function SubmissionForm() {
           id="consent"
           checked={formData.consent}
           onCheckedChange={handleCheckboxChange}
-          className={errors.consent ? 'border-red-500' : ''}
+          className={`mt-0.5 ${errors.consent ? 'border-red-500' : ''}`}
         />
         <div className="space-y-1">
           <Label htmlFor="consent" className="text-sm font-normal cursor-pointer">
