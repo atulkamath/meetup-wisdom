@@ -82,27 +82,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const sort = searchParams.get('sort') || 'top';
-
-    const orderBy =
-      sort === 'latest'
-        ? { createdAt: 'desc' as const }
-        : { votes: 'desc' as const };
-
-    const submissions = await prisma.submission.findMany({
-      orderBy,
-    });
-
-    return NextResponse.json(submissions);
-  } catch (error) {
-    console.error('Error fetching submissions:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch submissions' },
-      { status: 500 }
-    );
-  }
-}
