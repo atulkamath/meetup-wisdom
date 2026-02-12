@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import WisdomWall from '@/components/WisdomWall';
-import { SortOption } from '@/types/submission';
+import { Submission, SortOption } from '@/types/submission';
 import { Button } from '@/components/ui/button';
+import { prisma } from '@/lib/prisma';
 
 interface PageProps {
   searchParams: Promise<{ sort?: string; highlight?: string }>;
@@ -12,16 +13,14 @@ export default async function WallPage({ searchParams }: PageProps) {
   const sort = (params.sort || 'top') as SortOption;
   const highlightId = params.highlight;
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const response = await fetch(`${baseUrl}/api/submissions?sort=${sort}`, {
-    cache: 'no-store',
-  });
+  const orderBy =
+    sort === 'latest'
+      ? { createdAt: 'desc' as const }
+      : { votes: 'desc' as const };
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch submissions');
-  }
-
-  const submissions = await response.json();
+  const submissions = await prisma.submission.findMany({
+    orderBy,
+  }) as Submission[];
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
