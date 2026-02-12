@@ -23,13 +23,6 @@ export function validateSubmissionForm(data: SubmissionFormData): ValidationErro
 
   if (!data.hiringTrait || data.hiringTrait.trim().length === 0) {
     errors.hiringTrait = 'Hiring trait is required';
-  } else if (data.hiringTrait.length > 30) {
-    errors.hiringTrait = 'Hiring trait must be 30 characters or less';
-  } else {
-    const wordCount = data.hiringTrait.trim().split(/\s+/).length;
-    if (wordCount > 3) {
-      errors.hiringTrait = 'Hiring trait must be maximum 3 words';
-    }
   }
 
   if (!data.consent) {
