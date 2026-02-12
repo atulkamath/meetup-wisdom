@@ -42,22 +42,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (trimmedHiringTrait.length > 30) {
-      return NextResponse.json(
-        { error: "Hiring trait must be 30 characters or less" },
-        { status: 400 },
-      );
-    }
-
-    // Validate hiring trait is maximum 3 words
-    const wordCount = trimmedHiringTrait.split(/\s+/).length;
-    if (wordCount > 3) {
-      return NextResponse.json(
-        { error: "Hiring trait must be maximum 3 words" },
-        { status: 400 },
-      );
-    }
-
     const colors = ["red", "green", "blue"];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
