@@ -49,13 +49,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate hiring trait is one word (no spaces)
-    if (trimmedHiringTrait.includes(' ')) {
+    // Validate hiring trait is maximum 3 words
+    const wordCount = trimmedHiringTrait.split(/\s+/).length;
+    if (wordCount > 3) {
       return NextResponse.json(
-        { error: 'Hiring trait must be exactly one word with no spaces' },
+        { error: 'Hiring trait must be maximum 3 words' },
         { status: 400 }
       );
     }
+
+    // Random color selection
+    const colors = ['red', 'green', 'blue'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
     // Create submission
     const submission = await prisma.submission.create({
@@ -64,6 +69,7 @@ export async function POST(request: NextRequest) {
         role: trimmedRole,
         advice: trimmedAdvice,
         hiringTrait: trimmedHiringTrait,
+        color: randomColor,
       },
     });
 
