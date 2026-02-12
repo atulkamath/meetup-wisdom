@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!name || !role || !advice || !hiringTrait || !consent) {
       return NextResponse.json(
-        { error: 'All fields are required and consent must be given' },
-        { status: 400 }
+        { error: "All fields are required and consent must be given" },
+        { status: 400 },
       );
     }
 
@@ -23,29 +23,29 @@ export async function POST(request: NextRequest) {
     // Validate character limits
     if (trimmedName.length > 100) {
       return NextResponse.json(
-        { error: 'Name must be 100 characters or less' },
-        { status: 400 }
+        { error: "Name must be 100 characters or less" },
+        { status: 400 },
       );
     }
 
     if (trimmedRole.length > 150) {
       return NextResponse.json(
-        { error: 'Role must be 150 characters or less' },
-        { status: 400 }
+        { error: "Role must be 150 characters or less" },
+        { status: 400 },
       );
     }
 
     if (trimmedAdvice.length > 300) {
       return NextResponse.json(
-        { error: 'Advice must be 300 characters or less' },
-        { status: 400 }
+        { error: "Advice must be 300 characters or less" },
+        { status: 400 },
       );
     }
 
     if (trimmedHiringTrait.length > 30) {
       return NextResponse.json(
-        { error: 'Hiring trait must be 30 characters or less' },
-        { status: 400 }
+        { error: "Hiring trait must be 30 characters or less" },
+        { status: 400 },
       );
     }
 
@@ -53,16 +53,14 @@ export async function POST(request: NextRequest) {
     const wordCount = trimmedHiringTrait.split(/\s+/).length;
     if (wordCount > 3) {
       return NextResponse.json(
-        { error: 'Hiring trait must be maximum 3 words' },
-        { status: 400 }
+        { error: "Hiring trait must be maximum 3 words" },
+        { status: 400 },
       );
     }
 
-    // Random color selection
-    const colors = ['red', 'green', 'blue'];
+    const colors = ["red", "green", "blue"];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
-    // Create submission
     const submission = await prisma.submission.create({
       data: {
         name: trimmedName,
@@ -75,10 +73,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(submission, { status: 201 });
   } catch (error) {
-    console.error('Error creating submission:', error);
+    console.error("Error creating submission:", error);
     return NextResponse.json(
-      { error: 'Failed to create submission' },
-      { status: 500 }
+      { error: "Failed to create submission" },
+      { status: 500 },
     );
   }
 }
